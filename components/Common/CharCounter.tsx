@@ -21,7 +21,7 @@ export const CharCounter: React.FC<CharCounterProps> = ({ current, max }) => {
         percent={Math.min(percentage, 100)}
         status={status}
         showInfo={false}
-        size={[null, 4]}
+        size={{ height: 4 }}
         strokeColor={percentage > 100 ? '#ff4d4f' : percentage > 80 ? '#faad14' : '#52c41a'}
       />
       <Text type={type} style={{ fontSize: '0.75rem' }}>
