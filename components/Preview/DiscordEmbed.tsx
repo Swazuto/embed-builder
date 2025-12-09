@@ -11,6 +11,13 @@ interface DiscordEmbedProps {
 
 export const DiscordEmbed: React.FC<DiscordEmbedProps> = ({ embed }) => {
   const borderColor = embed.color ? decimalToHex(embed.color) : '#5865F2';
+  const handleAuthorMouseEnter = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.currentTarget.style.textDecoration = 'underline';
+  };
+
+  const handleAuthorMouseLeave = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.currentTarget.style.textDecoration = 'none';
+  };
   
   return (
     <div 
@@ -21,7 +28,8 @@ export const DiscordEmbed: React.FC<DiscordEmbedProps> = ({ embed }) => {
         borderLeft: `4px solid ${borderColor}`,
         borderRadius: '4px',
         background: '#2f3136',
-        padding: '8px 16px 16px 12px',
+                  objectFit: 'cover',
+        padding: '12px 16px 16px 12px',
         marginTop: '4px',
       }}
     >
@@ -87,6 +95,8 @@ export const DiscordEmbed: React.FC<DiscordEmbedProps> = ({ embed }) => {
                   fontWeight: 600,
                   lineHeight: 1.3,
                 }}
+                     onMouseEnter={handleAuthorMouseEnter}
+                     onMouseLeave={handleAuthorMouseLeave}
               >
                 {embed.title}
               </a>
@@ -107,8 +117,8 @@ export const DiscordEmbed: React.FC<DiscordEmbedProps> = ({ embed }) => {
         {embed.description && (
           <div style={{
             color: '#dcddde',
-            fontSize: '0.875rem',
-            lineHeight: 1.3,
+            fontSize: '1rem',
+            lineHeight: '1.375rem',
             marginBottom: '8px',
             whiteSpace: 'pre-wrap',
             wordBreak: 'break-word',

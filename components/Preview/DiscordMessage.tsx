@@ -62,7 +62,7 @@ export const DiscordMessage: React.FC<DiscordMessageProps> = ({
             borderRadius: '3px',
             textTransform: 'uppercase',
           }}>
-            BOT
+            APP
           </span>
           <span style={{
             color: '#72767d',

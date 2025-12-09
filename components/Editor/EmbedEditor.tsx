@@ -7,45 +7,54 @@ import { AuthorSection } from './AuthorSection';
 import { FieldsSection } from './FieldsSection';
 import { ImagesSection } from './ImagesSection';
 import { FooterSection } from './FooterSection';
+import { MessageSection } from './MessageSection';
 import { WebhookSection } from './WebhookSection';
+import { useLanguage } from '@/lib/hooks/useLanguage';
 
 export const EmbedEditor: React.FC = () => {
+  const { t } = useLanguage();
+  
   const items = [
     {
+      key: 'message',
+      label: t.message,
+      children: <MessageSection />,
+    },
+    {
       key: 'basic',
-      label: 'Basic',
+      label: t.basic,
       children: <BasicInfoSection />,
     },
     {
       key: 'author',
-      label: 'Author',
+      label: t.author,
       children: <AuthorSection />,
     },
     {
       key: 'fields',
-      label: 'Fields',
+      label: t.fields,
       children: <FieldsSection />,
     },
     {
       key: 'images',
-      label: 'Images',
+      label: t.images,
       children: <ImagesSection />,
     },
     {
       key: 'footer',
-      label: 'Footer',
+      label: t.footer,
       children: <FooterSection />,
     },
     {
       key: 'webhook',
-      label: 'Webhook',
+      label: t.webhook,
       children: <WebhookSection />,
     },
   ];
 
   return (
     <Card 
-      title="Embed Editor"
+      title={t.embedEditor}
       style={{ height: '100%' }}
       styles={{
         header: {

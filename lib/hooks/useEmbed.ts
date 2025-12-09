@@ -175,8 +175,10 @@ export const useEmbedStore = create<EmbedStore>((set, get) => ({
     if (!embed.title) delete embed.title;
     if (!embed.description) delete embed.description;
     if (!embed.url) delete embed.url;
-    if (!embed.author?.name && !embed.author?.url && !embed.author?.icon_url) delete embed.author;
-    if (!embed.footer?.text && !embed.footer?.icon_url) delete embed.footer;
+    if (!embed.timestamp) delete embed.timestamp;
+    if (!embed.color) delete embed.color;
+    if (!embed.author?.name) delete embed.author;
+    if (!embed.footer?.text) delete embed.footer;
     if (!embed.image?.url) delete embed.image;
     if (!embed.thumbnail?.url) delete embed.thumbnail;
     if (!embed.fields || embed.fields.length === 0) delete embed.fields;

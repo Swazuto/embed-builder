@@ -23,3 +23,153 @@ body {
 * {
   box-sizing: border-box;
 }
+
+/* Discord markdown semantic elements */
+h1, h2, h3 {
+  margin: 0 0 8px 0 !important;
+  line-height: 1.3 !important;
+  font-weight: 600 !important;
+  color: inherit !important;
+}
+
+h1 {
+  font-size: 2rem !important;
+}
+
+h2 {
+  font-size: 1.5rem !important;
+}
+
+h3 {
+  font-size: 1.25rem !important;
+}
+
+small {
+  font-size: 0.75rem !important;
+  color: #b5bac1 !important;
+  font-weight: normal !important;
+}
+
+blockquote {
+  border-left: 4px solid #4e5058 !important;
+  padding-left: 12px !important;
+  margin: 8px 0 !important;
+  color: #dbdee1 !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+}
+
+ul {
+  margin: 0 !important;
+  padding-left: 1.5rem !important;
+  list-style-position: outside !important;
+  list-style-type: disc !important;
+  font-size: inherit !important;
+}
+
+ul ul {
+  margin: 0 !important;
+  padding-left: 1.5rem !important;
+  list-style-type: circle !important;
+}
+
+li {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.375rem !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+}
+
+li::marker {
+  color: #dcddde !important;
+}
+
+ul ul li::marker {
+  color: #b9bbbe !important;
+}
+
+s {
+  text-decoration: line-through !important;
+  font-size: inherit !important;
+  color: inherit !important;
+}
+
+pre {
+  background: #2b2d31 !important;
+  border: 1px solid #1e1f22 !important;
+  border-radius: 4px !important;
+  padding: 8px !important;
+  margin: 8px 0 !important;
+  overflow: auto !important;
+  font-size: 0.875rem !important;
+  font-family: "Consolas", "Monaco", monospace !important;
+  line-height: 1.125rem !important;
+}
+
+pre code {
+  background: transparent !important;
+  padding: 0 !important;
+  font-size: inherit !important;
+  font-family: inherit !important;
+}
+
+code {
+  background: #2b2d31 !important;
+  padding: 2px 4px !important;
+  border-radius: 3px !important;
+  font-size: 0.875rem !important;
+  font-family: "Consolas", "Monaco", monospace !important;
+}
+
+strong {
+  font-weight: 600 !important;
+}
+
+em {
+  font-style: italic !important;
+}
+
+u {
+  text-decoration: underline !important;
+}
+
+/* Ant Design Select customization */
+.ant-select-selector {
+  border-color: #404249 !important;
+}
+
+.ant-select-focused .ant-select-selector {
+  border-color: #5865f2 !important;
+  box-shadow: 0 0 0 2px rgba(88, 101, 242, 0.2) !important;
+}
+
+.ant-select-item-option:hover {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+.ant-select-item-option-selected {
+  background-color: #5865f2 !important;
+  color: #ffffff !important;
+}
+
+.ant-select-item-option-selected:hover {
+  background-color: #7289da !important;
+  color: #ffffff !important;
+}
+
+/* Remove border-bottom from buttons */
+.ant-btn {
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+.ant-btn:hover {
+  border-bottom: none !important;
+}
+
+.ant-btn-primary,
+.ant-btn-danger {
+  border-bottom: 2px solid currentColor !important;
+}

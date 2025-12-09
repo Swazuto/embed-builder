@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
-import { Button, Space, Upload, Modal, Input, List, Typography, message, Popconfirm } from 'antd';
-import { UploadOutlined, DeleteOutlined, CopyOutlined, SaveOutlined, FolderOpenOutlined, DownloadOutlined } from '@ant-design/icons';
+import React, { useCallback, useState } from 'react';
+import { Button, Space, Upload, Modal, Input, List, Typography, message, Popconfirm, Select } from 'antd';
+import { UploadOutlined, DeleteOutlined, CopyOutlined, SaveOutlined, FolderOpenOutlined, DownloadOutlined, GlobalOutlined } from '@ant-design/icons';
 import { useEmbedStore } from '@/lib/hooks/useEmbed';
+import { useLanguage } from '@/lib/hooks/useLanguage';
 import { storageManager } from '@/lib/utils/storage';
 import { WebhookPayload } from '@/lib/types/embed.types';
+import { Language } from '@/lib/i18n/translations';
 
 const { Text } = Typography;
 
@@ -19,6 +21,7 @@ export const ToolbarSection: React.FC = () => {
     embed,
     loadState,
   } = useEmbedStore();
+  const { t, language, setLanguage } = useLanguage();
 
   const [saving, setSaving] = useState(false);
   const [saveName, setSaveName] = useState('');
@@ -28,7 +31,7 @@ export const ToolbarSection: React.FC = () => {
   const [showLoadModal, setShowLoadModal] = useState(false);
   const [templates, setTemplates] = useState(storageManager.getTemplates());
 
-  const payload = useMemo(() => {
+  const buildPayload = useCallback(() => {
     const base = getEmbedJSON();
     return {
       ...base,
@@ -39,16 +42,16 @@ export const ToolbarSection: React.FC = () => {
 
   const handleCopyJson = async () => {
     try {
-      await storageManager.copyToClipboard(payload);
-      message.success('JSON copiado para a área de transferência.');
+      await storageManager.copyToClipboard(buildPayload());
+      message.success(t.jsonCopied);
     } catch (error) {
-      message.error('Falha ao copiar JSON.');
+      message.error(t.jsonCopyError);
     }
   };
 
   const handleSaveTemplate = async () => {
     if (!saveName.trim()) {
-      message.error('Defina um nome para o template.');
+      message.error(t.templateNameRequired);
       return;
     }
     setSaving(true);
@@ -62,12 +65,12 @@ export const ToolbarSection: React.FC = () => {
         webhookAvatar,
       });
       setTemplates(storageManager.getTemplates());
-      message.success('Template salvo.');
+      message.success(t.templateSaved);
       setShowSaveModal(false);
       setSaveName('');
       setSaveDescription('');
     } catch (error) {
-      message.error('Falha ao salvar template.');
+      message.error(t.templateSaveError);
     } finally {
       setSaving(false);
     }
@@ -84,7 +87,7 @@ export const ToolbarSection: React.FC = () => {
       webhookAvatar: tpl.webhookAvatar || '',
     });
     setShowLoadModal(false);
-    message.success(`Template "${tpl.name}" carregado.`);
+    message.success(t.templateLoaded);
   };
 
   const handleImport = async (file: File) => {
@@ -98,9 +101,9 @@ export const ToolbarSection: React.FC = () => {
         webhookAvatar: tpl.webhookAvatar || '',
       });
       setTemplates(storageManager.getTemplates());
-      message.success('Template importado.');
+      message.success(t.templateImported);
     } catch (error) {
-      message.error(error instanceof Error ? error.message : 'Falha ao importar template');
+      message.error(error instanceof Error ? error.message : t.templateImportError);
     }
     return false;
   };
@@ -118,58 +121,78 @@ export const ToolbarSection: React.FC = () => {
       updatedAt: new Date().toISOString(),
     };
     storageManager.exportTemplate(tempTemplate);
-    message.success('JSON exportado.');
+    message.success(t.jsonExported);
   };
 
   return (
-    <Space wrap size="middle">
+    <Space wrap size="middle" style={{ justifyContent: 'center', width: '100%' }}>
+      {/* Language Selector */}
+      <Space>
+        <GlobalOutlined style={{ fontSize: '16px', color: '#b9bbbe' }} />
+        <Select
+          value={language}
+          onChange={(value: Language) => setLanguage(value)}
+          style={{ width: 180, borderColor: '#404249' }}
+          options={[
+            { value: 'pt-BR', label: '🇧🇷 Português (BR)' },
+            { value: 'en-US', label: '🇺🇸 English (US)' },
+            { value: 'ru', label: '🇷🇺 Русский' },
+            { value: 'ja', label: '🇯🇵 日本語' },
+            { value: 'zh', label: '🇨🇳 中文' },
+          ]}
+          popupMatchSelectWidth={false}
+          optionLabelProp="label"
+        />
+      </Space>
+
+      {/* Copy JSON */}
       <Button icon={<CopyOutlined />} onClick={handleCopyJson}>
-        Copy JSON
+        {t.copyJson}
       </Button>
 
       <Popconfirm
-        title="Limpar tudo?"
-        okText="Sim"
-        cancelText="Não"
+        title={t.clearAllConfirm}
+        okText={t.yes}
+        cancelText={t.no}
         onConfirm={clearAll}
       >
-        <Button danger icon={<DeleteOutlined />}>Clear All</Button>
+        <Button danger icon={<DeleteOutlined />}>{t.clearAll}</Button>
       </Popconfirm>
 
       <Button icon={<SaveOutlined />} onClick={() => setShowSaveModal(true)}>
-        Save Template
+        {t.saveTemplate}
       </Button>
 
       <Button icon={<FolderOpenOutlined />} onClick={() => setShowLoadModal(true)}>
-        Load Template
+        {t.loadTemplate}
       </Button>
 
       <Upload beforeUpload={handleImport} showUploadList={false} accept="application/json">
-        <Button icon={<UploadOutlined />}>Import JSON</Button>
+        <Button icon={<UploadOutlined />}>{t.importJson}</Button>
       </Upload>
 
       <Button icon={<DownloadOutlined />} onClick={handleExport}>
-        Export JSON
+        {t.exportJson}
       </Button>
 
       {/* Save Modal */}
       <Modal
-        title="Salvar template"
+        title={t.saveTemplate}
         open={showSaveModal}
         confirmLoading={saving}
         onOk={handleSaveTemplate}
         onCancel={() => setShowSaveModal(false)}
-        okText="Salvar"
-        cancelText="Cancelar"
+        okText={t.save}
+        cancelText={t.cancel}
       >
         <Space orientation="vertical" style={{ width: '100%' }}>
           <Input
-            placeholder="Nome do template"
+            placeholder={t.templateNamePlaceholder}
             value={saveName}
             onChange={(e) => setSaveName(e.target.value)}
           />
           <Input.TextArea
-            placeholder="Descrição (opcional)"
+            placeholder={t.templateDescriptionPlaceholder}
             value={saveDescription}
             onChange={(e) => setSaveDescription(e.target.value)}
             rows={3}
@@ -179,13 +202,13 @@ export const ToolbarSection: React.FC = () => {
 
       {/* Load Modal */}
       <Modal
-        title="Templates"
+        title={t.loadTemplate}
         open={showLoadModal}
         onCancel={() => setShowLoadModal(false)}
         footer={null}
       >
         {templates.length === 0 ? (
-          <Text type="secondary">Nenhum template salvo.</Text>
+          <Text type="secondary">{t.loadTemplate}</Text>
         ) : (
           <List
             dataSource={templates}
@@ -193,7 +216,7 @@ export const ToolbarSection: React.FC = () => {
               <List.Item
                 actions={[
                   <Button type="link" key="load" onClick={() => handleLoadTemplate(item.id)}>
-                    Load
+                    {t.load}
                   </Button>,
                 ]}
               >

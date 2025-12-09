@@ -3,11 +3,13 @@
 import React from 'react';
 import { Form, Input, Space } from 'antd';
 import { useEmbedStore } from '@/lib/hooks/useEmbed';
+import { useLanguage } from '@/lib/hooks/useLanguage';
 import { CharCounter } from '../Common/CharCounter';
 import { DISCORD_LIMITS } from '@/lib/constants/discord';
 
 export const FooterSection: React.FC = () => {
   const { embed, setFooter } = useEmbedStore();
+  const { t } = useLanguage();
   const footer = embed.footer || { text: '', icon_url: '' };
   
   const handleChange = (field: string, value: string) => {
@@ -21,9 +23,9 @@ export const FooterSection: React.FC = () => {
     <Space orientation="vertical" style={{ width: '100%' }} size="large">
       {/* Footer Text */}
       <div>
-        <Form.Item label="Footer Text" style={{ marginBottom: '8px' }}>
+        <Form.Item label={t.footerText} style={{ marginBottom: '8px' }}>
           <Input
-            placeholder="Footer text"
+            placeholder={t.footerTextPlaceholder}
             value={footer.text || ''}
             onChange={(e) => handleChange('text', e.target.value)}
             maxLength={DISCORD_LIMITS.EMBED.FOOTER_TEXT}
@@ -36,9 +38,9 @@ export const FooterSection: React.FC = () => {
       </div>
       
       {/* Footer Icon */}
-      <Form.Item label="Footer Icon URL">
+      <Form.Item label={t.footerIcon}>
         <Input
-          placeholder="https://example.com/icon.png"
+          placeholder={t.footerIconPlaceholder}
           value={footer.icon_url || ''}
           onChange={(e) => handleChange('icon_url', e.target.value)}
           type="url"

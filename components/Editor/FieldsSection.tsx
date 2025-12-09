@@ -4,6 +4,7 @@ import React from 'react';
 import { Form, Input, Space, Button, Checkbox, Card } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useEmbedStore } from '@/lib/hooks/useEmbed';
+import { useLanguage } from '@/lib/hooks/useLanguage';
 import { CharCounter } from '../Common/CharCounter';
 import { DISCORD_LIMITS } from '@/lib/constants/discord';
 
@@ -11,19 +12,20 @@ const { TextArea } = Input;
 
 export const FieldsSection: React.FC = () => {
   const { embed, addField, updateField, removeField } = useEmbedStore();
+  const { t } = useLanguage();
   const fields = embed.fields || [];
   
   return (
     <Space orientation="vertical" style={{ width: '100%' }} size="large">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span>Fields ({fields.length}/{DISCORD_LIMITS.EMBED.FIELDS})</span>
+        <span>{t.fields} ({fields.length}/{DISCORD_LIMITS.EMBED.FIELDS})</span>
         <Button
           type="primary"
           icon={<PlusOutlined />}
           onClick={addField}
           disabled={fields.length >= DISCORD_LIMITS.EMBED.FIELDS}
         >
-          Add Field
+          {t.addField}
         </Button>
       </div>
       
@@ -44,9 +46,9 @@ export const FieldsSection: React.FC = () => {
           <Space orientation="vertical" style={{ width: '100%' }}>
             {/* Field Name */}
             <div>
-              <Form.Item label="Name" style={{ marginBottom: '8px' }}>
+              <Form.Item label={t.fieldName} style={{ marginBottom: '8px' }}>
                 <Input
-                  placeholder="Field name"
+                  placeholder={t.fieldNamePlaceholder}
                   value={field.name}
                   onChange={(e) => updateField(index, { name: e.target.value })}
                   maxLength={DISCORD_LIMITS.EMBED.FIELD_NAME}
@@ -60,9 +62,9 @@ export const FieldsSection: React.FC = () => {
             
             {/* Field Value */}
             <div>
-              <Form.Item label="Value" style={{ marginBottom: '8px' }}>
+              <Form.Item label={t.fieldValue} style={{ marginBottom: '8px' }}>
                 <TextArea
-                  placeholder="Field value - supports markdown!"
+                  placeholder={t.fieldValuePlaceholder}
                   value={field.value}
                   onChange={(e) => updateField(index, { value: e.target.value })}
                   rows={3}
@@ -81,7 +83,7 @@ export const FieldsSection: React.FC = () => {
                 checked={field.inline}
                 onChange={(e) => updateField(index, { inline: e.target.checked })}
               >
-                Inline
+                {t.inline}
               </Checkbox>
             </Form.Item>
           </Space>

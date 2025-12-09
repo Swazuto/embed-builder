@@ -3,11 +3,13 @@
 import React from 'react';
 import { Form, Input, Space } from 'antd';
 import { useEmbedStore } from '@/lib/hooks/useEmbed';
+import { useLanguage } from '@/lib/hooks/useLanguage';
 import { CharCounter } from '../Common/CharCounter';
 import { DISCORD_LIMITS } from '@/lib/constants/discord';
 
 export const AuthorSection: React.FC = () => {
   const { embed, setAuthor } = useEmbedStore();
+  const { t } = useLanguage();
   const author = embed.author || { name: '', url: '', icon_url: '' };
   
   const handleChange = (field: string, value: string) => {
@@ -21,9 +23,9 @@ export const AuthorSection: React.FC = () => {
     <Space orientation="vertical" style={{ width: '100%' }} size="large">
       {/* Author Name */}
       <div>
-        <Form.Item label="Author Name" style={{ marginBottom: '8px' }}>
+        <Form.Item label={t.authorName} style={{ marginBottom: '8px' }}>
           <Input
-            placeholder="Author name"
+            placeholder={t.authorNamePlaceholder}
             value={author.name || ''}
             onChange={(e) => handleChange('name', e.target.value)}
             maxLength={DISCORD_LIMITS.EMBED.AUTHOR_NAME}
@@ -36,9 +38,9 @@ export const AuthorSection: React.FC = () => {
       </div>
       
       {/* Author URL */}
-      <Form.Item label="Author URL">
+      <Form.Item label={t.authorUrl}>
         <Input
-          placeholder="https://example.com"
+          placeholder={t.authorUrlPlaceholder}
           value={author.url || ''}
           onChange={(e) => handleChange('url', e.target.value)}
           type="url"
@@ -46,9 +48,9 @@ export const AuthorSection: React.FC = () => {
       </Form.Item>
       
       {/* Author Icon */}
-      <Form.Item label="Author Icon URL">
+      <Form.Item label={t.authorIcon}>
         <Input
-          placeholder="https://example.com/icon.png"
+          placeholder={t.authorIconPlaceholder}
           value={author.icon_url || ''}
           onChange={(e) => handleChange('icon_url', e.target.value)}
           type="url"

@@ -3,6 +3,7 @@
 import React from 'react';
 import { ColorPicker, Space, Button, Tooltip } from 'antd';
 import type { Color } from 'antd/es/color-picker';
+import { useLanguage } from '@/lib/hooks/useLanguage';
 import { DISCORD_COLOR_PRESETS } from '@/lib/constants/discord';
 import { hexToDecimal, decimalToHex } from '@/lib/utils/validation';
 
@@ -15,6 +16,7 @@ export const DiscordColorPicker: React.FC<DiscordColorPickerProps> = ({
   value, 
   onChange 
 }) => {
+  const { t } = useLanguage();
   const hexValue = value !== undefined ? decimalToHex(value) : '#5865F2';
   
   const handleColorChange = (color: Color) => {
@@ -23,7 +25,7 @@ export const DiscordColorPicker: React.FC<DiscordColorPickerProps> = ({
   };
   
   return (
-    <Space direction="vertical" style={{ width: '100%' }}>
+    <Space orientation="vertical" style={{ width: '100%' }}>
       <ColorPicker
         value={hexValue}
         onChange={handleColorChange}

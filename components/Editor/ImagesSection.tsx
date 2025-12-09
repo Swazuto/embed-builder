@@ -3,16 +3,18 @@
 import React from 'react';
 import { Form, Input, Space } from 'antd';
 import { useEmbedStore } from '@/lib/hooks/useEmbed';
+import { useLanguage } from '@/lib/hooks/useLanguage';
 
 export const ImagesSection: React.FC = () => {
   const { embed, setImage, setThumbnail } = useEmbedStore();
+  const { t } = useLanguage();
   
   return (
     <Space orientation="vertical" style={{ width: '100%' }} size="large">
       {/* Thumbnail */}
-      <Form.Item label="Thumbnail URL">
+      <Form.Item label={t.thumbnail}>
         <Input
-          placeholder="https://example.com/thumbnail.png"
+          placeholder={t.thumbnailPlaceholder}
           value={embed.thumbnail?.url || ''}
           onChange={(e) => setThumbnail(e.target.value)}
           type="url"
@@ -36,9 +38,9 @@ export const ImagesSection: React.FC = () => {
       </Form.Item>
       
       {/* Image */}
-      <Form.Item label="Image URL">
+      <Form.Item label={t.image}>
         <Input
-          placeholder="https://example.com/image.png"
+          placeholder={t.imagePlaceholder}
           value={embed.image?.url || ''}
           onChange={(e) => setImage(e.target.value)}
           type="url"
